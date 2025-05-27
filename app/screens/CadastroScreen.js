@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,30 +10,45 @@ import {
   Alert
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { post } from '../utils/ReqApi';
+import { salvarId } from '../utils/OpId';
 
 export default function CadastroScreen({ navigation }) {
-  const [name, setName] = useState('');
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [senha, setSenha] = useState('');
+  const [showSenha, setShowSenha] = useState(false);
 
-  const handleRegister = () => {
-    if (!name || !email || !password) {
+  useEffect(() => {
+    async function checkLogin() {
+      const id = await getId();
+      if (id) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        });
+      }
+    }
+
+    checkLogin();
+  }, [])
+
+  const handleRegister = async () => {
+    if (!nome || !email || !senha) {
       Alert.alert('Erro', 'Preencha todos os campos');
       return;
     }
 
-    console.log('Cadastro:', { name, email, password });
-  };
-
-  const handleSocialLogin = (provider) => {
-    console.log(`Login com ${provider}`);
+    post('/cadastro', { nome, email, senha }, (data) => {
+      Alert.alert('Sucesso', 'Conta criada com sucesso, insira as credenciais para login')
+      navigation.navigate('Login')
+    });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      
+
       <View style={styles.header}>
         <Text style={styles.time}>9:41</Text>
         <View style={styles.statusIcons}>
@@ -45,30 +60,12 @@ export default function CadastroScreen({ navigation }) {
 
       <View style={styles.content}>
 
-        <View style={styles.socialButtons}>
-          <TouchableOpacity 
-            style={styles.socialButton}
-            onPress={() => handleSocialLogin('Google')}
-          >
-            <Text style={styles.googleButton}>G</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.socialButton}
-            onPress={() => handleSocialLogin('Facebook')}
-          >
-            <Text style={styles.facebookButton}>f</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.orText}>OU</Text>
-
         <View style={styles.form}>
           <TextInput
             style={styles.input}
             placeholder="Nome completo"
-            value={name}
-            onChangeText={setName}
+            value={nome}
+            onChangeText={setNome}
             placeholderTextColor="#999"
           />
 
@@ -86,19 +83,19 @@ export default function CadastroScreen({ navigation }) {
             <TextInput
               style={styles.passwordInput}
               placeholder="Senha"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
+              value={senha}
+              onChangeText={setSenha}
+              secureTextEntry={!showSenha}
               placeholderTextColor="#999"
             />
-            <TouchableOpacity 
-              onPress={() => setShowPassword(!showPassword)}
+            <TouchableOpacity
+              onPress={() => setShowSenha(!showSenha)}
               style={styles.eyeIcon}
             >
-              <Ionicons 
-                name={showPassword ? "eye" : "eye-off"} 
-                size={20} 
-                color="#999" 
+              <Ionicons
+                name={showSenha ? "eye" : "eye-off"}
+                size={20}
+                color="#999"
               />
             </TouchableOpacity>
           </View>

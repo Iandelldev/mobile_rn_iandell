@@ -100,24 +100,6 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.loginButtonText}>Entrar</Text>
         </TouchableOpacity>
 
-        <Text style={styles.orText}>OU</Text>
-
-        <View style={styles.socialButtons}>
-          <TouchableOpacity
-            style={styles.socialButton}
-            onPress={() => handleSocialLogin('Google')}
-          >
-            <Text style={styles.googleButton}>G</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.socialButton}
-            onPress={() => handleSocialLogin('Facebook')}
-          >
-            <Text style={styles.facebookButton}>f</Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Não tem uma conta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
