@@ -7,6 +7,8 @@ import {
 const apiUrl = Constants.expoConfig.extra.apiUrl;
 
 async function post(rota, dataEnviar, acao) {
+    console.log(dataEnviar)
+
     try {
 
         const response = await axios.post(apiUrl + rota,
@@ -14,6 +16,7 @@ async function post(rota, dataEnviar, acao) {
         );
 
         const data = response.data;
+        console.log(data);
 
         if (data.success) {
             acao(data)
@@ -24,6 +27,7 @@ async function post(rota, dataEnviar, acao) {
 
     } catch (error) {
         if (error.response) {
+            console.log(error.response.data)
             Alert.alert('Erro', error.response.data.error);
         } else {
             Alert.alert('Erro', 'Erro ao processar ação. Tente novamente.');

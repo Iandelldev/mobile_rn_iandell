@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { post } from '../utils/ReqApi';
-import { salvarId } from '../utils/OpId';
 
 export default function CadastroScreen({ navigation }) {
   const [nome, setNome] = useState('');

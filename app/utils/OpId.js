@@ -1,20 +1,20 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function salvarId(id) {
-  await SecureStore.setItemAsync('id', id);
+  await AsyncStorage.setItem('id', id.toString());
 }
 
 async function getId() {
-  const id = await SecureStore.getItemAsync('id');
-  return parseInt(id, 10);
+  const id = await AsyncStorage.getItem('id');
+  return id ? parseInt(id, 10) : null;
 }
 
 async function deletarId() {
-  await SecureStore.deleteItemAsync('id');
+  await AsyncStorage.removeItem('id');
 }
 
-export{
-    salvarId,
-    getId,
-    deletarId
-}
+export {
+  salvarId,
+  getId,
+  deletarId
+};
